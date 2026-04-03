@@ -1,31 +1,57 @@
 ---
 name: html-parse
-version: 0.2.0
-description: >
-  Parse HTML files into structured Markdown with preserved formatting and hierarchy. HTML parser, web page parser, HTML to structured Markdown, markup parser, HTML document parser, webpage content parser, HTML tag processor, DOM parser, HTML tokenizer, structured content extractor, HTML解析, 网页解析, HTML解析工具, 网页内容解析, HTML结构化处理.
-
-  Use when asked to 'parse this HTML file', 'convert HTML to structured Markdown', 'parse web page content', 'process HTML tags into Markdown', 'parse and structure HTML document', 'turn HTML into organized Markdown'. Also handles: 'how do I parse an HTML file into Markdown?', 'is there a skill that parses HTML documents?', 'I want to parse HTML and get structured output', 'can my agent parse web pages into clean Markdown?'.
-
-  Solves the problem of raw HTML being difficult to read and process, losing document structure when copying from web pages, inability to programmatically extract structured content from HTML, and messy conversions that break formatting and hierarchy. Powered by MinerU parsing engine for accurate HTML-to-Markdown conversion with structure preservation. Handles tables, lists, headings, code blocks, links, and nested elements. Perfect for documentation workflows, content migration, knowledge base building, and data pipeline processing.
-tags:
-  - html
-  - parser
-  - markdown
-  - structured-content
-  - document-processing
-  - mineru
-  - converter
-  - dom-parser
-  - web-scraping
-  - content-extraction
-  - html-to-markdown
-  - formatting
+description: "HTML Parse - parse local HTML files into structured Markdown using MinerU. Preserves document hierarchy. For live web pages, use url-to-markdown (crawl) instead."
+homepage: https://mineru.net
+metadata: {"openclaw": {"emoji": "📄", "requires": {"bins": ["mineru-open-api"], "env": ["MINERU_TOKEN"]}, "primaryEnv": "MINERU_TOKEN", "install": [{"id": "npm", "kind": "node", "package": "mineru-open-api", "bins": ["mineru-open-api"], "label": "Install via npm"}, {"id": "go", "kind": "go", "package": "github.com/opendatalab/MinerU-Ecosystem/cli/mineru-open-api", "bins": ["mineru-open-api"], "label": "Install via go install", "os": ["darwin", "linux"]}]}}
 ---
 
 # HTML Parse
 
-Parse HTML files into structured, clean Markdown using MinerU.
+Parse local HTML files into structured Markdown using MinerU. Preserves document hierarchy. For live web pages, use `mineru-open-api crawl`.
 
-## Usage
+## Install
 
-Use the mineru tool to parse HTML files. Provide the local HTML file path and receive well-structured Markdown output that preserves headings, tables, lists, code blocks, links, and document hierarchy.
+```bash
+npm install -g mineru-open-api
+# or via Go (macOS/Linux):
+go install github.com/opendatalab/MinerU-Ecosystem/cli/mineru-open-api@latest
+```
+
+## Quick Start
+
+```bash
+# Parse a local HTML file (requires token)
+mineru-open-api extract page.html -o ./out/
+
+# Parse a remote HTML URL (requires token)
+mineru-open-api extract https://example.com/page.html -o ./out/
+
+# Parse a live web page (requires token)
+mineru-open-api crawl https://example.com/article -o ./out/
+```
+
+## Authentication
+
+Token required:
+
+```bash
+mineru-open-api auth             # Interactive token setup
+export MINERU_TOKEN="your-token" # Or via environment variable
+```
+
+Create token at: https://mineru.net/apiManage/token
+
+## Capabilities
+
+- Supported input: local .html file or remote HTML URL
+- HTML requires `extract` or `crawl` (token required)
+- HTML is NOT supported by `flash-extract`
+- Language hint with `--language` (default: `ch`, use `en` for English)
+
+## Notes
+
+- HTML is NOT supported by `flash-extract` — use `extract` or `crawl`
+- For live web pages with dynamic content, use `crawl` instead of `extract`
+- Output goes to stdout by default; use `-o <dir>` to save to a file or directory
+- All progress/status messages go to stderr; document content goes to stdout
+- MinerU is open-source by OpenDataLab (Shanghai AI Lab): https://github.com/opendatalab/MinerU
